@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,10 +44,13 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
 
 		// set accuracy??
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
+		criteria.setPowerRequirement(Criteria.POWER_LOW);
 
 		// Get the name of the best available provider
 		String provider = locationManager.getBestProvider(criteria, true);
+		// Display the selected provider
+		TextView tv_provider = (TextView) findViewById(R.id.textView1);
+		tv_provider.setText("Provider: "+provider);
 
 		// We can use the provider immediately to get the last known location
 		Location location = locationManager.getLastKnownLocation(provider);
@@ -77,6 +81,13 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
 
 	@Override
 	public void onLocationChanged(Location location) {
+		// 緯度の表示
+		TextView tv_lat = (TextView) findViewById(R.id.textView2);
+		tv_lat.setText("Latitude: "+location.getLatitude());
+		// 経度の表示
+		TextView tv_lng = (TextView) findViewById(R.id.textView3);
+		tv_lng.setText("Longitude: "+location.getLongitude());
+
 		if (mMap != null){
 			drawMarker(location);
 		}
